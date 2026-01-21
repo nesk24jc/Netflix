@@ -17,6 +17,7 @@ utilisateurs;
 films;
 séries;
 categories;
+------->>>
 
 #Frontend
 HTML, CSS, JS
@@ -29,3 +30,52 @@ Gestion des utilisateurs, des films et des séries.
 
 #Sécurité
 ------pas de compétences pour sécuriser l'application------
+
+
+2eme sujet:
+
+Les trois couches application pour netflix:
+
+
+couche donnés:
+
+parlé sur le premier sujet | #Tables -->>>>>
+mysql, mariadb, postgresql, sqlite, oracle, sql server
+
+
+    
+couche métier:
+  avec du node.js , du php ou du python.
+on va accéder à la couche données pour récupérer les données.
+on va accéder à la couche données pour modifier les données.
+on va accéder à la couche données pour supprimer les données.
+les règles de gestion seront dans la couche métier.
+par exemple , si on veut ajouter un film, on va accéder à la couche données pour ajouter le film.
+
+
+
+
+
+
+
+couche presentation:
+avec du html, css et js
+react, vue.js, angular
+->on aura des buttons pour choisir un film ou une série.
+->le film ou la série sera affiché dans une page.
+->le profil sera affiché dans une page.
+->la page de connexion sera affiché dans une page.
+->la page d'inscription sera affiché dans une page.
+->la page de deconnexion sera affiché dans une page.
+->la page de modification du profil sera affiché dans une page.
+->la page de modification du mot de passe sera affiché dans une page.
+->la page de modification du profil sera affiché dans une page.
+-> les couleurs seront modernes et attrayantes.
+-> un design responsive.
+-> un design moderne.
+
+
+
+
+
+
