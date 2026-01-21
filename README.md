@@ -79,3 +79,25 @@ react, vue.js, angular
 
 
 
+
+4eme sujet:
+
+Requetes front-end et back-end:
+
+-> front-end:
+
+exemples de requêtes Front-end :
+`GET /api/movies` 
+ `POST /api/login` 
+ `GET /api/movies/123`  
+
+-> back-end:
+Le back-end (serveur) reçoit ces requêtes, traite la logique métier, interroge la base de données, et renvoie une réponse.
+
+
+-> Réception : Le serveur reçoit la requête HTTP (ex: `GET /api/movies`).
+-> Traitement : Il vérifie si l'utilisateur est connecté (session/token).
+-> Données : Il fait une requête SQL à la base de données (ex: `SELECT * FROM films`).
+-> Réponse : Il renvoie les données au front-end;
+
+
