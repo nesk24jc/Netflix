@@ -1,16 +1,24 @@
-import Home from './pages/Home.jsx'; // Assure-toi que le chemin vers Home est correct
-import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import MovieDetail from './pages/MovieDetail';
+import MyRentals from './pages/MyRentals';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import NotFound from './pages/NotFound';
 
 function App() {
-  return (
-    <div className="min-h-screen bg-black text-white antialiased">
-      {/* Ici, on rend simplement le composant Home. 
-        Plus tard, c'est ici que tu ajouteras tes Routes 
-        pour naviguer entre l'accueil et le détail d'un film.
-      */}
-      <Home />
-    </div>
-  );
+   return (
+      <BrowserRouter>
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/movie/:id" element={<MovieDetail />} />
+            <Route path="/my-rentals" element={<MyRentals />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<NotFound />} />
+         </Routes>
+      </BrowserRouter>
+   ); 
 }
 
 export default App;

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import SearchBar from './SearchBar'; 
 import CartButton from './CartButton';
 
+import { Link, NavLink } from 'react-router-dom';  
+
 function Navbar({movies, onSearch, cartItems, removeFromCart}) {
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -28,25 +30,44 @@ function Navbar({movies, onSearch, cartItems, removeFromCart}) {
         <div className="flex items-center justify-between">
           
           <div className="flex items-center space-x-8">
-            <h1 className="text-primary text-3xl font-bold tracking-tight cursor-pointer">
+            
+            <Link to="/" className="text-primary text-3xl font-bold tracking-tight cursor-pointer">
               NETFLIX
-            </h1>
+            </Link>
 
             <ul className="hidden md:flex space-x-6">
               <li>
-                <a href="#" className="hover:text-gray-300 transition-colors">
+                
+                <NavLink 
+                  to="/" 
+                  className={({ isActive }) => 
+                    isActive ? 'text-primary font-bold' : 'text-gray-300 hover:text-white transition-colors'
+                  }
+                >
                   Accueil
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-300 transition-colors">
+                
+                <NavLink 
+                  to="/" 
+                  className={({ isActive }) => 
+                    isActive ? 'text-primary font-bold' : 'text-gray-300 hover:text-white transition-colors'
+                  }
+                >
                   Films
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a href="#" className="hover:text-gray-300 transition-colors">
+              
+                <NavLink 
+                  to="/my-rentals" 
+                  className={({ isActive }) => 
+                    isActive ? 'text-primary font-bold' : 'text-gray-300 hover:text-white transition-colors'
+                  }
+                >
                   Mes locations
-                </a>
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -57,9 +78,15 @@ function Navbar({movies, onSearch, cartItems, removeFromCart}) {
 
             <CartButton cartItems={cartItems} removeFromCart={removeFromCart} />
 
-            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center cursor-pointer hover:bg-primary-dark transition-colors">
-              <span className="text-sm font-bold text-white">U</span>
-            </div>
+          
+
+
+
+            <Link to="/login">
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center cursor-pointer hover:bg-primary-dark transition-colors">
+                <span className="text-sm font-bold text-white">U</span>
+              </div>
+            </Link>
             
           </div>
         </div>
