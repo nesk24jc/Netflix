@@ -9,7 +9,7 @@ const genreColors = {
   'Thriller': 'bg-gray-600'
 };
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, onRent }) {
   // Sélection de la couleur basée sur le genre
   const genreColorClass = genreColors[movie.genre] || 'bg-gray-700';
 
@@ -51,7 +51,7 @@ function MovieCard({ movie }) {
         </p>
 
         <div className="flex gap-2">
-          <Button size="sm" className="flex-1 py-1 text-xs">▶ Louer</Button>
+          <Button onClick={onRent} size="sm" className="flex-1 py-1 text-xs">▶ Louer</Button>
           <Button variant="outline" size="sm" className="flex-1 py-1 text-xs">+ Info</Button>
         </div>
       </div>
