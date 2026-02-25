@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import SearchBar from './SearchBar'; // Assure-toi que le chemin est correct
+import SearchBar from './SearchBar'; 
 
-function Navbar() {
+function Navbar({movies, onSearch}) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -54,8 +54,8 @@ function Navbar() {
           {/* Section Droite : Recherche & Profil */}
           <div className="flex items-center space-x-6">
             
-            {/* On a remplacé le bouton statique par le composant intelligent */}
-            <SearchBar />
+          
+            <SearchBar movies={movies} onSearch={onSearch}/>
 
             {/* User Avatar */}
             <div className="w-8 h-8 bg-primary rounded flex items-center justify-center cursor-pointer hover:bg-primary-dark transition-colors">

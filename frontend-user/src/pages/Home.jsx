@@ -53,10 +53,14 @@ function Home() {
 
   const featuredMovie = allMovies[0];
 
+  const handleSearchSelect = (movie) => {
+    console.log("Film sélectionné depuis la battre de recherche : " ,movie);
+  };
+
   return (
     <div className="bg-black min-h-screen text-white font-sans antialiased">
       {/* Barre de navigation */}
-      <Navbar />
+      <Navbar movies={allMovies} onSelect={handleSearchSelect} />
 
       <main>
         {/* Section principale avec le film en vedette */}
