@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import SearchBar from './SearchBar'; 
+import CartButton from './CartButton';
 
-function Navbar({movies, onSearch}) {
+function Navbar({movies, onSearch, cartItems, removeFromCart}) {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,7 +27,6 @@ function Navbar({movies, onSearch}) {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           
-          {/* Section Gauche : Logo & Liens */}
           <div className="flex items-center space-x-8">
             <h1 className="text-primary text-3xl font-bold tracking-tight cursor-pointer">
               NETFLIX
@@ -51,13 +51,12 @@ function Navbar({movies, onSearch}) {
             </ul>
           </div>
 
-          {/* Section Droite : Recherche & Profil */}
           <div className="flex items-center space-x-6">
             
-          
             <SearchBar movies={movies} onSearch={onSearch}/>
 
-            {/* User Avatar */}
+            <CartButton cartItems={cartItems} removeFromCart={removeFromCart} />
+
             <div className="w-8 h-8 bg-primary rounded flex items-center justify-center cursor-pointer hover:bg-primary-dark transition-colors">
               <span className="text-sm font-bold text-white">U</span>
             </div>
