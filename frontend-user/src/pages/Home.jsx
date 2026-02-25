@@ -5,7 +5,6 @@ import MovieList from '../components/movies/MovieList';
 import MovieFilter from '../components/movies/MovieFilter';
 import Footer from '../components/layout/Footer';
 
-
 const moviesData = [
   {
     id: 1,
@@ -46,45 +45,61 @@ const moviesData = [
 ];
 
 function Home() {
- 
   const [allMovies] = useState(moviesData);
   const [filteredMovies, setFilteredMovies] = useState(moviesData);
 
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (movie) => {
+    const isAlreadyInCart = cartItems.some((item) => item.id === movie.id);
+    
+    if (!isAlreadyInCart) {
+      setCartItems([...cartItems, movie]);
+    } else {
+      alert("Ce film est déjà dans votre panier !");
+    }
+  };
+
+  const removeFromCart = (id) => {
+    setCartItems(cartItems.filter((item) => item.id !== id));
+  };
 
   const featuredMovie = allMovies[0];
 
   const handleSearchSelect = (movie) => {
-    console.log("Film sélectionné depuis la battre de recherche : " ,movie);
+    console.log("Film sélectionné depuis la barre de recherche : " ,movie);
   };
 
   return (
     <div className="bg-black min-h-screen text-white font-sans antialiased">
-      {/* Barre de navigation */}
-      <Navbar movies={allMovies} onSelect={handleSearchSelect} />
+      <Navbar 
+        movies={allMovies} 
+        onSearch={handleSearchSelect} 
+        cartItems={cartItems} 
+        removeFromCart={removeFromCart} 
+      />
 
       <main>
-        {/* Section principale avec le film en vedette */}
-        {featuredMovie && <MovieHero movie={featuredMovie} />}
+        {featuredMovie && (
+          <MovieHero 
+            movie={featuredMovie} 
+            onRent={() => addToCart(featuredMovie)} 
+          />
+        )}
 
-        {/* Conteneur principal */}
         <div className="relative z-10 -mt-32 pb-20">
           
-          {/* Composant de filtrage */}
           <div className="container mx-auto relative z-20">
-             {/* setFilteredMovies est passé directement, il sert de callback onFilter */}
             <MovieFilter movies={allMovies} onFilter={setFilteredMovies} />
           </div>
 
-          {/* Liste dynamique qui réagit au filtre */}
-          <MovieList title="Notre Catalogue" movies={filteredMovies} />
+          <MovieList title="Notre Catalogue" movies={filteredMovies} onRent={addToCart}/>
           
-          {/* Listes statiques pour l'exemple */}
-          <MovieList title="Les mieux notés" movies={[...allMovies].reverse()} />
-          <MovieList title="Films d'Action" movies={allMovies.filter(m => m.genre === 'Action')} />
+          <MovieList title="Les mieux notés" movies={[...allMovies].reverse()} onRent={addToCart}/>
+          <MovieList title="Films d'Action" movies={allMovies.filter(m => m.genre === 'Action')} onRent={addToCart}/>
         </div>
       </main>
 
-      {/* Pied de page */}
       <Footer />
     </div>
   );
