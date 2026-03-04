@@ -50,11 +50,24 @@ function Home() {
 
   const [cartItems, setCartItems] = useState([]);
 
-  const addToCart = (movie) => {
+ const addToCart = (movie) => {
     const isAlreadyInCart = cartItems.some((item) => item.id === movie.id);
     
     if (!isAlreadyInCart) {
-      setCartItems([...cartItems, movie]);
+     
+      const newCart = [...cartItems, movie];
+      setCartItems(newCart);
+
+   
+      const existingRentals = JSON.parse(localStorage.getItem('rentals') || '[]');
+      
+      
+      if (!existingRentals.some(m => m.id === movie.id)) {
+        const updatedRentals = [...existingRentals, movie];
+      
+        localStorage.setItem('rentals', JSON.stringify(updatedRentals)); 
+      }
+      
     } else {
       alert("Ce film est déjà dans votre panier !");
     }

@@ -18,6 +18,20 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
+
+
+            <Route
+               path="/my-rentals"
+               element={
+                  <ProtectedRoute>
+                     <MyRentals />
+                  </ProtectedRoute>
+               }
+            />
+
+            <Route path="*" element={<NotFound/>}/>
+
+            
          </Routes>
       </BrowserRouter>
    ); 
