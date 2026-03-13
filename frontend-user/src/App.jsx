@@ -7,33 +7,35 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 
 import ProtectedRoute from './utils/ProtectedRoute';
+import { AuthProvider } from './context/AuthProvider'; 
 
 function App() {
    return (
-      <BrowserRouter>
-         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/movie/:id" element={<MovieDetail />} />
-            <Route path="/my-rentals" element={<MyRentals />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="*" element={<NotFound />} />
+      
+      <AuthProvider>
+         <BrowserRouter>
+            <Routes>
+               {/* Routes publiques */}
+               <Route path="/" element={<Home />} />
+               <Route path="/movie/:id" element={<MovieDetail />} />
+               <Route path="/login" element={<Login />} />
+               <Route path="/register" element={<Register />} />
+               
+               {/* Route protégée (Nécessite d'être connecté) */}
+               <Route
+                  path="/my-rentals"
+                  element={
+                     <ProtectedRoute>
+                        <MyRentals />
+                     </ProtectedRoute>
+                  }
+               />
 
-
-            <Route
-               path="/my-rentals"
-               element={
-                  <ProtectedRoute>
-                     <MyRentals />
-                  </ProtectedRoute>
-               }
-            />
-
-            <Route path="*" element={<NotFound/>}/>
-
-            
-         </Routes>
-      </BrowserRouter>
+               {/* Route 404 (Toujours à mettre en tout dernier) */}
+               <Route path="*" element={<NotFound />} />
+            </Routes>
+         </BrowserRouter>
+      </AuthProvider>
    ); 
 }
 
