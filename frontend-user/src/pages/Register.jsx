@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
 
 function Register() {
   const navigate = useNavigate();
-
+  const { register } = useAuth();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -15,36 +16,30 @@ function Register() {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
- 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
- 
   const validateForm = () => {
     const newErrors = {};
-    
     
     if (!formData.name) {
       newErrors.name = "Nom requis";
     }
     
- 
     if (!formData.email) {
       newErrors.email = "Email requis";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email invalide";
     }
     
-   
     if (!formData.password) {
       newErrors.password = "Mot de passe requis";
     } else if (formData.password.length < 6) {
       newErrors.password = "Au moins 6 caractères";
     }
     
-  
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Les mots de passe ne correspondent pas";
     }
@@ -52,34 +47,27 @@ function Register() {
     return newErrors;
   };
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
     const newErrors = validateForm();
     
-   
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
     
-    
     setLoading(true);
     
-       setTimeout(() => {
-      
-      localStorage.setItem('user', JSON.stringify({
-        email: formData.email,
-        name: formData.name 
-      }));
-
-      setLoading(false);
-      
-      
+    const result = await register(formData.name, formData.email, formData.password);
+    
+    setLoading(false);
+    
+    if (result.success) {
       navigate('/');
-    }, 1000);
+    } else {
+      setErrors({ ...newErrors, general: result.error || "Erreur lors de l'inscription" });
+    }
   };
 
   return (
@@ -99,6 +87,12 @@ function Register() {
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           
+          {errors.general && (
+            <div className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded text-sm">
+              {errors.general}
+            </div>
+          )}
+
           {/* Champ Nom */}
           <div>
             <input 
