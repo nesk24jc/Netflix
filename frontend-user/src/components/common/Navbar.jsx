@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import SearchBar from './SearchBar'; 
 import CartButton from './CartButton';
-import { useAuth } from '../context/AuthProvider'; 
+import { useAuth } from '../../context/AuthProvider';
 
 function Navbar({movies, onSearch, cartItems, removeFromCart}) {
   const [isScrolled, setIsScrolled] = useState(false);
