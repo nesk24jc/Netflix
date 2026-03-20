@@ -1,6 +1,6 @@
 import MovieCard from './MovieCard.jsx';
 
-function MovieList({ title, movies, onRent }) {
+function MovieList({ title, movies }) {
   return (
     <div className="my-8 px-4 md:px-12">
       {/* Titre de la section */}
@@ -14,7 +14,6 @@ function MovieList({ title, movies, onRent }) {
           <MovieCard 
             key={movie.id} 
             movie={movie} 
-            onRent={() => onRent(movie)} 
           />
         ))}
       </div>
