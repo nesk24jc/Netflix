@@ -1,40 +1,52 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  // 🌟 AJOUT IMPORTANT : Il faut déclarer tes states !
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // TODO : Charger l'utilisateur depuis localStorage au démarrage
   useEffect(() => {
-    // On vérifie s'il y a déjà quelqu'un d'enregistré dans le navigateur
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser) {
-      // localStorage stocke du texte, il faut le retransformer en objet JS avec parse
       setUser(JSON.parse(storedUser));
     }
-    setLoading(false); // On a fini de charger
+    setLoading(false);
   }, []);
 
   // Fonction de connexion
   const login = async (email, password) => {
     try {
-      // Simulation d'une requête réseau (1 seconde d'attente)
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // TODO: Sera remplacé plus tard par la vraie API (séance 8 ou 9 , ça dépend ;-))
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+      setUser(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return { success: true };
+      // Simulation
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       const mockUser = {
         id: Date.now(),
         email: email,
-        name: email.split('@')[0],
-        avatar: `https://ui-avatars.com/api/?name=${email}&background=e50914&color=fff`
+        name: email.split("@")[0],
+        avatar: `https://ui-avatars.com/api/?name=${email}&background=e50914&color=fff`,
       };
-
+      
       // TODO : Enregistrer les données de l'utilisateur dans le localStorage
-      setUser(mockUser); // On met à jour le state React
-      localStorage.setItem('user', JSON.stringify(mockUser)); // On sauvegarde dans le navigateur
-
+      setUser(mockUser);
+      localStorage.setItem("user", JSON.stringify(mockUser));
+      
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
@@ -43,18 +55,19 @@ export function AuthProvider({ children }) {
 
   // Fonction d'inscription
   const register = async (name, email, password) => {
+    // TODO : inspirez-vous de plus haut
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       const newUser = {
         id: Date.now(),
-        email: email,
-        name: name,
-        avatar: `https://ui-avatars.com/api/?name=${name}&background=e50914&color=fff`
+        name,
+        email,
+        avatar: `https://ui-avatars.com/api/?name=${email}&background=e50914&color=fff`,
       };
 
       setUser(newUser);
-      localStorage.setItem('user', JSON.stringify(newUser));
+      localStorage.setItem("user", JSON.stringify(newUser));
 
       return { success: true };
     } catch (error) {
@@ -64,41 +77,50 @@ export function AuthProvider({ children }) {
 
   // Fonction de déconnexion
   const logout = () => {
-    // TODO : Supprimez l’utilisateur enregistré en mémoire
-    setUser(null); // On vide le state
-    localStorage.removeItem('user'); // On nettoie le navigateur
+    // TODO : Supprimez l’utilisateur enregistré en mémoire:
+    setUser(null);
+    localStorage.removeItem("user");
   };
 
   // Vérifier si l'utilisateur est connecté
-  const isAuthenticated = () => { 
-    return user !== null; // Renvoie true s'il y a un user, false sinon
+  const isAuthenticated = () => {
+    // XXXX
+    return user !== null;
   };
 
   // Mettre à jour le profil
   const updateProfile = (updates) => {
-    // "Ça ne vous rappelle rien ?" -> C'est le Spread Operator (...) !
-    const updatedUser = { ...user, ...updates }; 
-    
+    if (!user) return;
+    const updatedUser = { ...user, ...updates }; //ça ne vous rappelle rien ?
     // TODO : Mettre à jour et stocker l’utilisateur
     setUser(updatedUser);
-    localStorage.setItem('user', JSON.stringify(updatedUser));
+    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
-  // On met à disposition les éléments pour être utilisés dans les composants
-  const value = { user, loading, login, register, logout, isAuthenticated, updateProfile };
+  //On met à disposition les éléments pour être utilisés dans les composants
+  const value = {
+    user,
+    loading,
+    login,
+    register,
+    logout,
+    isAuthenticated,
+    updateProfile,
+  };
 
   return (
-    // 🌟 CORRECTION : Il faut englober children avec le Provider du Context
     <AuthContext.Provider value={value}>
-      {!loading && children} 
+      {!loading && children}
     </AuthContext.Provider>
   );
 }
 
-// Hook personnalisé
 export function useAuth() {
   const context = useContext(AuthContext);
 
-  if (!context) throw new Error('useAuth must be used within AuthProvider');
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
+  }
+
   return context;
 }
